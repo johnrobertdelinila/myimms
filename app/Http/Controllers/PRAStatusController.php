@@ -53,7 +53,9 @@ class PRAStatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+        PRAStatus::create($data);
+        // return $request->application_number;
     }
 
     /**
@@ -145,7 +147,7 @@ class PRAStatusController extends Controller
      */
     public function destroy($id)
     {
-        // PRAStatus::find($id)->delete($id);
+        PRAStatus::find($id)->delete($id);
   
         return response()->json([
             'success' => 'Record deleted successfully!'

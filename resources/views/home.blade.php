@@ -29,7 +29,7 @@
                                     <h2>Manage <b>Data</b></h2>
                                 </div>
                                 <div class="col-sm-6">
-                                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Data</span></a>
+                                    <a href="#addEmployeeModal" id="add-data" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i> <span>Add New Data</span></a>
                                     <!-- <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Delete</span></a>						 -->
                                 </div>
                             </div>
@@ -94,31 +94,31 @@
                                 <div class="modal-body">					
                                     <div class="form-group">
                                         <label>Application Number</label>
-                                        <input type="text" class="form-control" required>
+                                        <input id="application_number" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Identification</label>
-                                        <input type="text" class="form-control" required>
+                                        <input id="identification" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Employee</label>
-                                        <input class="form-control" required></input>
+                                        <input id="employee" class="form-control" required></input>
                                     </div>
                                     <div class="form-group">
                                         <label>Document Number</label>
-                                        <input type="text" class="form-control" required>
+                                        <input id="document_number" type="text" class="form-control" required>
                                     </div>	
                                     <div class="form-group">
                                         <label>Application Date</label>
-                                        <input type="text" class="form-control" required>
+                                        <input id="application_date" type="text" class="form-control" required>
                                     </div>	
                                     <div class="form-group">
                                         <label>Citizen</label>
-                                        <input type="text" class="form-control" required>
+                                        <input id="citizen" type="text" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Status</label>
-                                        <input type="text" class="form-control" required>
+                                        <input id="status" type="text" class="form-control" required>
                                     </div>			
                                 </div>
                                 <div class="modal-footer">
@@ -212,21 +212,33 @@
             });
             return o;
         };
-        
+
 
         $(document).on('click', '.delete_button', function() {
             const id = $(this).attr("id");
             $(".delete-data").attr("id", id);
         });
 
-        $('.add-button').click(function() {
-            const form_value = $('#add-form').serializeJSON();
-            console.log(form_value);
-            
-        });
-
         $('#add-form').submit(function() {
-            console.log(JSON.stringify($('#add-form').serializeObject()));
+            var token = $("meta[name='csrf-token']").attr("content");
+            $.ajax(
+            {
+                url: "insert",
+                method: 'POST',
+                data: {
+                    "application_number": $('#application_number').val(),
+                    "identification": $('#identification').val(),
+                    "employee": $('#employee').val(),
+                    "document_number": $('#document_number').val(),
+                    "date_of_application": $('#application_date').val(),
+                    "citizens": $('#citizen').val(),
+                    "status": $('#status').val(),
+                    "_token": token,
+                },
+                success: function (response){
+                    location.reload();
+                }
+            });
             return false;
         });
 
@@ -245,7 +257,7 @@
                     "_token": token,
                 },
                 success: function (response){
-                    alert(response.success);
+                    // alert(response.success);
                     table.row("#" + id + "_row").remove().draw();
                 }
             });

@@ -10,4 +10,14 @@ class PRAStatus extends Model
     use HasFactory;
 
     protected $table = 'prastatus';
+
+    protected $fillable = [
+        'application_number',
+        'identification',
+        'employee',
+        'document_number',
+        'date_of_application',
+        'citizens',
+        'status',
+    ];
 }

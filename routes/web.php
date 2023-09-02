@@ -37,3 +37,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('data/{id}', [PRAStatusController::class, 'destroy'])->name('data.destroy');
+Route::post('insert', [PRAStatusController::class, 'store'])->name('data.add');
